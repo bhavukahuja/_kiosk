@@ -32,14 +32,15 @@ const ProtectedRoute = ({ user, children }) => {
 const App = () => {
   const location = useLocation();
   const { user } = useContext(authContext);
+  const isLoginPage = location.pathname === "/login" || location.pathname === "/";
 
   return (
     <div className=''>
-      {location.pathname !== "/login" && <Navbar />}
-      {location.pathname !== "/login" && <SideBar />}
+      {!isLoginPage && <Navbar />}
+      {!isLoginPage && <SideBar />}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route element={<ProtectedRoute user={user} />}>
           <Route path="/dashboard" element={user && user.role === 'superAdmin' ? <SuperAdminDashboard /> : user && user.role === 'admin' ? <AdminDashboard /> : <UserDashboard />} />
           <Route path="/create-admin" element={<CreateAdmin />} />
@@ -53,7 +54,7 @@ const App = () => {
           <Route path='/ticket/:id' element={<Ticket/>}/>
         </Route>
       </Routes>
-      {location.pathname !== "/login" && <Footer />}
+      {!isLoginPage && <Footer />}
       <Toaster position='bottom-right' />
     </div>
   );
