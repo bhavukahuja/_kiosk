@@ -13,6 +13,8 @@ import Campus360 from './pages/Campus360';
 import useInactivityTimer from './hooks/TrackInactivity';
 import FacultyDetail from './pages/FacultyDetail';
 import BlockDetail from './pages/BlockDetail';
+import Settings from './pages/Settings';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   useInactivityTimer();
@@ -40,6 +42,7 @@ const App = () => {
               <Route path="/blocks" element={<Blocks />} />
               <Route path="/faculty/:id" element={<FacultyDetail />} />
               <Route path="/block/:id" element={<BlockDetail />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>
         </div>
@@ -48,6 +51,7 @@ const App = () => {
       <div className="fixed bottom-0 left-0 w-full z-50">
         <Footer />
       </div>
+      <Toaster position="bottom-right" />
     </div>
   );
 };

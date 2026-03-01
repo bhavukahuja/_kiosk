@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -57,6 +57,16 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
     win = null;
+  }
+});
+
+ipcMain.on('quit-app', () => {
+  app.quit();
+});
+
+ipcMain.on('set-zoom-level', (_event, level: number) => {
+  if (win) {
+    win.webContents.setZoomLevel(level);
   }
 });
 
