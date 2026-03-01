@@ -89,9 +89,22 @@ const UpdateFaculty = () => {
   };
 
   const handleFileChange = (e) => processFile(e.target.files[0]);
-  const handleDragOver = (e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(true); };
-  const handleDragLeave = (e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(false); };
-  const handleDrop = (e) => { e.preventDefault(); e.stopPropagation(); setIsDragging(false); processFile(e.dataTransfer.files[0]); };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    processFile(e.dataTransfer.files[0]);
+  };
 
   const removeImage = () => {
     setFormData({ ...formData, imageUrl: '' });
@@ -160,13 +173,14 @@ const UpdateFaculty = () => {
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-6 sm:px-10 py-8">
           <form onSubmit={handleSubmit} className="space-y-8">
-
             {/* Profile Photo + Name Section */}
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-2">
                   <Camera size={14} className="text-slate-400" />
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Profile & Identity</h3>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Profile & Identity
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -185,7 +199,10 @@ const UpdateFaculty = () => {
                             : 'bg-slate-50 border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
                         }`}
                       >
-                        <Upload size={20} className={isDragging ? 'text-blue-400' : 'text-slate-300'} />
+                        <Upload
+                          size={20}
+                          className={isDragging ? 'text-blue-400' : 'text-slate-300'}
+                        />
                         <span className="text-[9px] font-bold text-slate-400 mt-1">Upload</span>
                       </div>
                     ) : (
@@ -194,21 +211,57 @@ const UpdateFaculty = () => {
                           src={formData.imageUrl}
                           alt="Faculty"
                           className="w-full h-full object-cover"
-                          onError={(e) => { e.target.src = 'https://via.placeholder.com/300?text=?'; }}
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/300?text=?';
+                          }}
                         />
                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                          <button type="button" onClick={() => fileInputRef.current?.click()} className="p-1.5 bg-white rounded-md text-slate-600 hover:bg-slate-100"><Upload size={14} /></button>
-                          <button type="button" onClick={removeImage} className="p-1.5 bg-white rounded-md text-red-500 hover:bg-red-50"><X size={14} /></button>
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="p-1.5 bg-white rounded-md text-slate-600 hover:bg-slate-100"
+                          >
+                            <Upload size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={removeImage}
+                            className="p-1.5 bg-white rounded-md text-red-500 hover:bg-red-50"
+                          >
+                            <X size={14} />
+                          </button>
                         </div>
                       </div>
                     )}
-                    <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
                   </div>
 
                   {/* Name + Designation */}
                   <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <InputField icon={UserIcon} label="Full Name" name="facultyName" value={formData.facultyName} onChange={handleInputChange} placeholder="Dr. John Doe" required />
-                    <InputField icon={Briefcase} label="Designation" name="designation" value={formData.designation} onChange={handleInputChange} placeholder="Professor" required />
+                    <InputField
+                      icon={UserIcon}
+                      label="Full Name"
+                      name="facultyName"
+                      value={formData.facultyName}
+                      onChange={handleInputChange}
+                      placeholder="Dr. John Doe"
+                      required
+                    />
+                    <InputField
+                      icon={Briefcase}
+                      label="Designation"
+                      name="designation"
+                      value={formData.designation}
+                      onChange={handleInputChange}
+                      placeholder="Professor"
+                      required
+                    />
                   </div>
                 </div>
               </div>
@@ -219,12 +272,31 @@ const UpdateFaculty = () => {
               <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-2">
                   <GraduationCap size={14} className="text-slate-400" />
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Academic Details</h3>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Academic Details
+                  </h3>
                 </div>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField icon={GraduationCap} label="Qualification" name="qualification" value={formData.qualification} onChange={handleInputChange} placeholder="Ph.D in Computer Science" required />
-                <InputField icon={Activity} label="Experience (Years)" name="totalExperience" type="number" value={formData.totalExperience} onChange={handleInputChange} placeholder="10" required />
+                <InputField
+                  icon={GraduationCap}
+                  label="Qualification"
+                  name="qualification"
+                  value={formData.qualification}
+                  onChange={handleInputChange}
+                  placeholder="Ph.D in Computer Science"
+                  required
+                />
+                <InputField
+                  icon={Activity}
+                  label="Experience (Years)"
+                  name="totalExperience"
+                  type="number"
+                  value={formData.totalExperience}
+                  onChange={handleInputChange}
+                  placeholder="10"
+                  required
+                />
               </div>
             </div>
 
@@ -233,12 +305,31 @@ const UpdateFaculty = () => {
               <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-2">
                   <Mail size={14} className="text-slate-400" />
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Contact Information</h3>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Contact Information
+                  </h3>
                 </div>
               </div>
               <div className="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <InputField icon={Mail} label="Email Address" name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="john@campus.edu" required />
-                <InputField icon={Phone} label="Phone Number" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="+91 98765 43210" required />
+                <InputField
+                  icon={Mail}
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="john@campus.edu"
+                  required
+                />
+                <InputField
+                  icon={Phone}
+                  label="Phone Number"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleInputChange}
+                  placeholder="+91 98765 43210"
+                  required
+                />
               </div>
             </div>
 
@@ -247,7 +338,9 @@ const UpdateFaculty = () => {
               <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
                 <div className="flex items-center gap-2">
                   <Building2 size={14} className="text-slate-400" />
-                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Department</h3>
+                  <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    Department
+                  </h3>
                 </div>
               </div>
               <div className="p-6">
@@ -270,7 +363,6 @@ const UpdateFaculty = () => {
                 </div>
               </div>
             </div>
-
           </form>
         </div>
       </div>
@@ -279,11 +371,22 @@ const UpdateFaculty = () => {
 };
 
 /* ── Inline Input Component ──────────────────────────────────────────────── */
-const InputField = ({ icon: Icon, label, name, type = 'text', value, onChange, placeholder, required }) => (
+const InputField = ({
+  icon: Icon,
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  placeholder,
+  required,
+}) => (
   <div>
     <label className="block text-xs font-semibold text-slate-500 mb-1.5">{label}</label>
     <div className="relative">
-      {Icon && <Icon size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />}
+      {Icon && (
+        <Icon size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+      )}
       <input
         type={type}
         name={name}

@@ -117,7 +117,9 @@ const Ticket = () => {
             <span className="text-xs font-black text-slate-300 uppercase tracking-widest leading-none mb-1">
               Ticket ID: {data._id.slice(-6).toUpperCase()}
             </span>
-            <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Help Desk Briefing</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
+              Help Desk Briefing
+            </h1>
           </div>
         </div>
 

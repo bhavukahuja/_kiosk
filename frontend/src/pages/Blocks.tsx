@@ -2,14 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import {
-  Building2,
-  Search,
-  ChevronRight,
-  AlertCircle,
-  Navigation,
-  Layers,
-} from 'lucide-react';
+import { Building2, Search, ChevronRight, AlertCircle, Navigation, Layers } from 'lucide-react';
 
 interface BuildingBlock {
   _id: string;
@@ -199,8 +192,7 @@ const Blocks = () => {
                     {block.name}
                   </h3>
                   <p className="text-slate-400 text-xs font-medium line-clamp-2 mb-6 leading-relaxed">
-                    {block.description ||
-                      t('blocks.defaultDescription')}
+                    {block.description || t('blocks.defaultDescription')}
                   </p>
 
                   <div className="mt-auto flex items-center justify-between border-t border-slate-50 pt-4">

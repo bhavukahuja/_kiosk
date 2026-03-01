@@ -17,18 +17,19 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { authContext } from '../context/AuthContext';
-import {
-  PageLoader,
-  Card,
-  FormInput,
-  Button,
-  SearchInput,
-} from '../components/ui';
+import { PageLoader, Card, FormInput, Button, SearchInput } from '../components/ui';
 import axios from 'axios';
 
 const BUILDING_TYPES = [
-  'block', 'library', 'canteen', 'hostel', 'admin',
-  'lab', 'auditorium', 'medical', 'other',
+  'block',
+  'library',
+  'canteen',
+  'hostel',
+  'admin',
+  'lab',
+  'auditorium',
+  'medical',
+  'other',
 ];
 
 const TYPE_COLORS = {
@@ -162,8 +163,7 @@ const Blocks = () => {
     return buildings.filter((b) => {
       const q = searchQuery.toLowerCase();
       const matchesSearch =
-        (b.name || '').toLowerCase().includes(q) ||
-        (b.code || '').toLowerCase().includes(q);
+        (b.name || '').toLowerCase().includes(q) || (b.code || '').toLowerCase().includes(q);
       const matchesType = typeFilter === 'all' || b.type === typeFilter;
       return matchesSearch && matchesType;
     });
@@ -180,18 +180,29 @@ const Blocks = () => {
             <Building2 size={20} />
           </div>
           <div>
-            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Total</p>
+            <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5">
+              Total
+            </p>
             <p className="text-2xl font-bold text-slate-900">{buildings.length}</p>
           </div>
         </div>
         {['block', 'library', 'lab'].map((t) => (
-          <div key={t} className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center border border-slate-100 ${t === 'block' ? 'bg-purple-50 text-purple-600' : t === 'library' ? 'bg-amber-50 text-amber-600' : 'bg-cyan-50 text-cyan-600'}`}>
+          <div
+            key={t}
+            className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex items-center gap-4"
+          >
+            <div
+              className={`w-12 h-12 rounded-lg flex items-center justify-center border border-slate-100 ${t === 'block' ? 'bg-purple-50 text-purple-600' : t === 'library' ? 'bg-amber-50 text-amber-600' : 'bg-cyan-50 text-cyan-600'}`}
+            >
               <Layers size={20} />
             </div>
             <div>
-              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5 capitalize">{t}s</p>
-              <p className="text-2xl font-bold text-slate-900">{buildings.filter((b) => b.type === t).length}</p>
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-0.5 capitalize">
+                {t}s
+              </p>
+              <p className="text-2xl font-bold text-slate-900">
+                {buildings.filter((b) => b.type === t).length}
+              </p>
             </div>
           </div>
         ))}
@@ -347,7 +358,10 @@ const Blocks = () => {
                   { name: 'hasLift', label: 'Has Lift' },
                   { name: 'isOpenWeekends', label: 'Weekends' },
                 ].map(({ name, label }) => (
-                  <label key={name} className="flex items-center gap-2 cursor-pointer text-sm text-slate-600">
+                  <label
+                    key={name}
+                    className="flex items-center gap-2 cursor-pointer text-sm text-slate-600"
+                  >
                     <input
                       type="checkbox"
                       name={name}
@@ -362,7 +376,9 @@ const Blocks = () => {
 
               {/* Images */}
               <div className="space-y-2">
-                <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Images</p>
+                <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">
+                  Images
+                </p>
                 <div className="flex flex-wrap gap-2">
                   <div
                     onClick={() => fileInputRef.current?.click()}
@@ -379,7 +395,10 @@ const Blocks = () => {
                     />
                   </div>
                   {formData.imageUrl.map((img, idx) => (
-                    <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 group">
+                    <div
+                      key={idx}
+                      className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 group"
+                    >
                       <img src={img} alt="" className="w-full h-full object-cover" />
                       <button
                         type="button"
@@ -421,7 +440,9 @@ const Blocks = () => {
               >
                 <option value="all">All</option>
                 {BUILDING_TYPES.map((t) => (
-                  <option key={t} value={t}>{t}</option>
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
                 ))}
               </select>
             </div>
@@ -447,7 +468,9 @@ const Blocks = () => {
                         <Building2 size={40} strokeWidth={1} />
                       </div>
                     )}
-                    <span className={`absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${TYPE_COLORS[b.type] || TYPE_COLORS.other}`}>
+                    <span
+                      className={`absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider border ${TYPE_COLORS[b.type] || TYPE_COLORS.other}`}
+                    >
                       {b.type}
                     </span>
                     {b.code && (
@@ -485,14 +508,22 @@ const Blocks = () => {
                       </div>
                       <div className="flex items-center gap-1.5 text-slate-500">
                         <Clock size={12} className="text-slate-400" />
-                        <span className="text-[10px] font-medium">{b.openTime || '09:00'} - {b.closeTime || '16:00'}</span>
+                        <span className="text-[10px] font-medium">
+                          {b.openTime || '09:00'} - {b.closeTime || '16:00'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <Accessibility size={12} className={b.isAccessible ? 'text-emerald-500' : 'text-slate-300'} />
+                        <Accessibility
+                          size={12}
+                          className={b.isAccessible ? 'text-emerald-500' : 'text-slate-300'}
+                        />
                         <span className="text-[10px] font-medium text-slate-500">Accessible</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <ArrowUpCircle size={12} className={b.hasLift ? 'text-blue-500' : 'text-slate-300'} />
+                        <ArrowUpCircle
+                          size={12}
+                          className={b.hasLift ? 'text-blue-500' : 'text-slate-300'}
+                        />
                         <span className="text-[10px] font-medium text-slate-500">Elevator</span>
                       </div>
                     </div>
@@ -516,13 +547,16 @@ const Blocks = () => {
                       <div className="flex items-center gap-1">
                         <MapPin size={11} className="text-red-400" />
                         <span className="text-[10px] font-medium">
-                          {b.coordinates?.lat?.toFixed(4) || '—'}, {b.coordinates?.lng?.toFixed(4) || '—'}
+                          {b.coordinates?.lat?.toFixed(4) || '—'},{' '}
+                          {b.coordinates?.lng?.toFixed(4) || '—'}
                         </span>
                       </div>
                       {b.contactEmail && (
                         <div className="flex items-center gap-1">
                           <Mail size={11} />
-                          <span className="text-[10px] font-medium truncate max-w-[100px]">{b.contactEmail}</span>
+                          <span className="text-[10px] font-medium truncate max-w-[100px]">
+                            {b.contactEmail}
+                          </span>
                         </div>
                       )}
                     </div>

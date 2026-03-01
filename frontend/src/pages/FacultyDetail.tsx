@@ -23,7 +23,10 @@ interface FacultyMember {
   email: string;
   phoneNumber: string;
   department: 'CSE' | 'ECE' | 'MECH' | 'CIVIL' | 'EEE' | 'IT';
-  translations?: Record<string, { facultyName?: string; designation?: string; qualification?: string }>;
+  translations?: Record<
+    string,
+    { facultyName?: string; designation?: string; qualification?: string }
+  >;
   __v?: number;
 }
 
@@ -80,7 +83,9 @@ const FacultyDetail = () => {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-[40px] p-20 text-center border border-slate-100">
         <AlertCircle size={40} className="text-red-300 mb-6" />
-        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || t('facultyDetail.facultyNotFound')}</h3>
+        <h3 className="text-xl font-bold text-[#002b5c] mb-8">
+          {error || t('facultyDetail.facultyNotFound')}
+        </h3>
         <button
           onClick={() => navigate(-1)}
           className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-bold active:scale-95 transition-all text-sm"
@@ -108,7 +113,9 @@ const FacultyDetail = () => {
             <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em] mb-1">
               {t('facultyDetail.academicUnit')}
             </span>
-            <span className="text-sm font-bold text-[#002b5c]">{data.department} {t('facultyDetail.engineering')}</span>
+            <span className="text-sm font-bold text-[#002b5c]">
+              {data.department} {t('facultyDetail.engineering')}
+            </span>
           </div>
           <div className="w-[1px] h-8 bg-slate-200" />
           <BadgeCheck className="text-blue-500" size={24} />
@@ -138,7 +145,9 @@ const FacultyDetail = () => {
             <h1 className="text-6xl font-black text-[#002b5c] tracking-tighter leading-none mb-4">
               {localized(data, 'facultyName', i18n.language)}
             </h1>
-            <p className="text-2xl font-medium text-slate-400 italic">{localized(data, 'designation', i18n.language)}</p>
+            <p className="text-2xl font-medium text-slate-400 italic">
+              {localized(data, 'designation', i18n.language)}
+            </p>
           </div>
         </section>
 

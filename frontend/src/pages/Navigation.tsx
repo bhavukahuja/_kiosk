@@ -6,21 +6,49 @@ import 'leaflet/dist/leaflet.css';
 import { MapPin, Navigation2, ChevronRight, Compass, Loader2 } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
-interface LatLng { lat: number; lng: number; }
-interface MapNode  { id: string; lat: number; lng: number; }
-interface Segment  { from: string; to: string; }
-interface PathLabel { en: string; hi?: string; pa?: string; }
-interface MapPath  { id: string; label: PathLabel | string; segments: Segment[]; }
-interface MapData  { nodes: MapNode[]; paths: MapPath[]; }
+interface LatLng {
+  lat: number;
+  lng: number;
+}
+interface MapNode {
+  id: string;
+  lat: number;
+  lng: number;
+}
+interface Segment {
+  from: string;
+  to: string;
+}
+interface PathLabel {
+  en: string;
+  hi?: string;
+  pa?: string;
+}
+interface MapPath {
+  id: string;
+  label: PathLabel | string;
+  segments: Segment[];
+}
+interface MapData {
+  nodes: MapNode[];
+  paths: MapPath[];
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 /** Returns an ordered array of LatLng coords for the given path ID. */
-function getCoordinatesFromPath(pathId: string, nodeMap: Map<string, LatLng>, paths: MapPath[]): LatLng[] {
+function getCoordinatesFromPath(
+  pathId: string,
+  nodeMap: Map<string, LatLng>,
+  paths: MapPath[]
+): LatLng[] {
   const path = paths.find((p) => p.id === pathId);
   if (!path || path.segments.length === 0) return [];
   const ids: string[] = [path.segments[0].from];
   for (const seg of path.segments) ids.push(seg.to);
-  return ids.flatMap((id) => { const c = nodeMap.get(id); return c ? [c] : []; });
+  return ids.flatMap((id) => {
+    const c = nodeMap.get(id);
+    return c ? [c] : [];
+  });
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -34,17 +62,17 @@ const Navigation = () => {
     const lang = i18n.language as 'en' | 'hi' | 'pa';
     return label[lang] || label.en;
   };
-  const mapRef         = useRef<HTMLDivElement>(null);
-  const leafletMapRef  = useRef<L.Map | null>(null);
-  const routeLayerRef  = useRef<L.Polyline | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const leafletMapRef = useRef<L.Map | null>(null);
+  const routeLayerRef = useRef<L.Polyline | null>(null);
   const startMarkerRef = useRef<L.CircleMarker | null>(null);
-  const endMarkerRef   = useRef<L.CircleMarker | null>(null);
+  const endMarkerRef = useRef<L.CircleMarker | null>(null);
 
-  const [mapData,      setMapData]      = useState<MapData | null>(null);
-  const [loadingData,  setLoadingData]  = useState(false);
-  const [dataError,    setDataError]    = useState<string | null>(null);
+  const [mapData, setMapData] = useState<MapData | null>(null);
+  const [loadingData, setLoadingData] = useState(false);
+  const [dataError, setDataError] = useState<string | null>(null);
   const [activePathId, setActivePathId] = useState<string | null>(null);
-  const [mapStarted,   setMapStarted]   = useState(false);
+  const [mapStarted, setMapStarted] = useState(false);
 
   // ── 1. Fetch map data from API when user starts navigation ──────────────
   useEffect(() => {
@@ -115,11 +143,18 @@ const Navigation = () => {
         fillOpacity: 1,
       })
         .addTo(map)
-        .bindTooltip(t('navigation.youAreHere'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-you' });
+        .bindTooltip(t('navigation.youAreHere'), {
+          permanent: true,
+          direction: 'top',
+          className: 'leaflet-tooltip-you',
+        });
     }
 
     leafletMapRef.current = map;
-    return () => { map.remove(); leafletMapRef.current = null; };
+    return () => {
+      map.remove();
+      leafletMapRef.current = null;
+    };
   }, [mapStarted, mapData]);
 
   // ── drawPath ─────────────────────────────────────────────────────────────
@@ -159,7 +194,13 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#16a34a',
       fillOpacity: 1,
-    }).addTo(map).bindTooltip(t('navigation.start'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-start' });
+    })
+      .addTo(map)
+      .bindTooltip(t('navigation.start'), {
+        permanent: true,
+        direction: 'top',
+        className: 'leaflet-tooltip-start',
+      });
 
     // Red end marker
     const last = latlngs[latlngs.length - 1];
@@ -169,7 +210,13 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#dc2626',
       fillOpacity: 1,
-    }).addTo(map).bindTooltip(t('navigation.destination'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-end' });
+    })
+      .addTo(map)
+      .bindTooltip(t('navigation.destination'), {
+        permanent: true,
+        direction: 'top',
+        className: 'leaflet-tooltip-end',
+      });
 
     map.fitBounds(polyline.getBounds(), { padding: [60, 60] });
   }
@@ -212,7 +259,10 @@ const Navigation = () => {
         </div>
 
         {/* Destination list */}
-        <div className="flex-1 overflow-y-auto px-4 mt-4 space-y-2 pb-4" style={{scrollbarWidth:'thin'}}>
+        <div
+          className="flex-1 overflow-y-auto px-4 mt-4 space-y-2 pb-4"
+          style={{ scrollbarWidth: 'thin' }}
+        >
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] px-2 mb-3">
             {t('navigation.destinations')}
           </p>
@@ -220,13 +270,13 @@ const Navigation = () => {
           {loadingData && (
             <div className="flex items-center gap-2 px-2 py-3">
               <Loader2 size={14} className="text-[#002b5c] animate-spin" />
-              <span className="text-[10px] font-bold text-slate-400">{t('navigation.loadingRoutes')}</span>
+              <span className="text-[10px] font-bold text-slate-400">
+                {t('navigation.loadingRoutes')}
+              </span>
             </div>
           )}
 
-          {dataError && (
-            <p className="text-[10px] font-bold text-red-400 px-2">{dataError}</p>
-          )}
+          {dataError && <p className="text-[10px] font-bold text-red-400 px-2">{dataError}</p>}
 
           {(mapData?.paths ?? []).map((path) => {
             const isActive = activePathId === path.id;
@@ -247,7 +297,9 @@ const Navigation = () => {
                 >
                   <MapPin size={14} />
                 </div>
-                <span className="text-xs font-black flex-1 leading-snug">{resolveLabel(path.label)}</span>
+                <span className="text-xs font-black flex-1 leading-snug">
+                  {resolveLabel(path.label)}
+                </span>
                 <ChevronRight size={13} className={isActive ? 'opacity-60' : 'opacity-30'} />
               </button>
             );
@@ -256,7 +308,9 @@ const Navigation = () => {
 
         {/* Legend */}
         <div className="px-6 py-4 border-t border-slate-100 space-y-2 shrink-0">
-          <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2">{t('navigation.legend')}</p>
+          <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2">
+            {t('navigation.legend')}
+          </p>
           {[
             { color: '#002b5c', label: t('navigation.kiosk') },
             { color: '#1d4ed8', label: t('navigation.route') },
@@ -265,7 +319,10 @@ const Navigation = () => {
             { color: '#94a3b8', label: t('navigation.node') },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} />
+              <div
+                className="w-2.5 h-2.5 rounded-full shrink-0"
+                style={{ background: item.color }}
+              />
               <span className="text-[9px] font-semibold text-slate-500">{item.label}</span>
             </div>
           ))}
@@ -274,7 +331,6 @@ const Navigation = () => {
 
       {/* ── Map ─────────────────────────────────────────────────────────── */}
       <div className="flex-1 relative bg-[#0a1628]">
-
         {/* Splash screen — shown until user starts navigation */}
         {!mapStarted && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#0a1628]">

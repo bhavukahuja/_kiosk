@@ -79,7 +79,7 @@ const SuperAdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this user?')) return;
     setActionLoading(true);
     try {
-      await axiosInstance.get(`/api/auth/delete-user/${ userId }`);
+      await axiosInstance.get(`/api/auth/delete-user/${userId}`);
       toast.success('User deleted successfully!');
       fetchData();
     } catch (err) {

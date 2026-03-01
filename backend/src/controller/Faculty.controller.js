@@ -102,10 +102,9 @@ export const deleteFaculty = async (req, res) => {
   }
 };
 
-
-export const updateFaculty=async(req,res)=>{
-  try{
-    const {id}=req.params;
+export const updateFaculty = async (req, res) => {
+  try {
+    const { id } = req.params;
     let {
       facultyName,
       designation,
@@ -117,35 +116,39 @@ export const updateFaculty=async(req,res)=>{
       department,
     } = req.body;
 
-    if(imageUrl && imageUrl.startsWith('data:')){
+    if (imageUrl && imageUrl.startsWith('data:')) {
       const uploadImage = await cloudinary.uploader.upload(imageUrl, {
         folder: 'faculty_images',
       });
-      imageUrl=uploadImage.secure_url;
+      imageUrl = uploadImage.secure_url;
     }
 
     // Re-translate text fields
     const translations = await buildTranslations(facultyName, designation, qualification);
 
-    const updatedFaculty = await Faculty.findByIdAndUpdate(id, {
-      facultyName,
-      designation,
-      qualification,
-      totalExperience,
-      imageUrl,
-      email,
-      phoneNumber,
-      department,
-      translations,
-    }, { new: true });
+    const updatedFaculty = await Faculty.findByIdAndUpdate(
+      id,
+      {
+        facultyName,
+        designation,
+        qualification,
+        totalExperience,
+        imageUrl,
+        email,
+        phoneNumber,
+        department,
+        translations,
+      },
+      { new: true }
+    );
 
     if (!updatedFaculty) {
       return res.status(404).json({ message: 'Faculty not found' });
     }
 
     res.status(200).json({ message: 'Faculty updated successfully', faculty: updatedFaculty });
-  }catch(err){
+  } catch (err) {
     res.status(500).json({ message: err.message });
     console.log(err);
   }
-}
+};

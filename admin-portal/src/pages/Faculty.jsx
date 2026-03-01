@@ -182,153 +182,160 @@ const Faculty = () => {
     <div className="lg:ml-64 mt-20 min-h-[calc(100vh-5rem)] p-4 sm:p-8">
       <div className={`grid gap-6 ${isAdmin ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
         {/* Add Faculty Form */}
-        {isAdmin && <Card
-          headerIcon={Camera}
-          headerTitle="Add Faculty"
-          headerSubtitle="Register new member"
-          className="h-fit"
-        >
-          <form onSubmit={handleSubmit} className="p-5 space-y-4">
-            {/* Image Upload */}
-            <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Profile Photo
-              </label>
-              {!formData.imageUrl ? (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  className={`flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
-                    isDragging
-                      ? 'bg-blue-50 border-blue-400 scale-[1.01]'
-                      : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-blue-400'
-                  }`}
-                >
-                  <Upload className={`mb-2 ${isDragging ? 'text-blue-400' : 'text-slate-300'}`} size={24} />
-                  {isDragging ? (
-                    <p className="text-xs font-bold text-blue-400">Drop to upload</p>
-                  ) : (
-                    <>
-                      <p className="text-xs font-bold text-slate-400">Drag & drop or click to upload</p>
-                      <p className="text-[10px] text-slate-300 mt-0.5">PNG, JPG up to 2MB</p>
-                    </>
-                  )}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </div>
-              ) : (
-                <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 group">
-                  <img
-                    src={formData.imageUrl}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={removeImage}
-                      className="p-2 bg-white text-red-500 rounded-lg"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <FormInput
-              label="Faculty Name"
-              name="facultyName"
-              icon={UserIcon}
-              value={formData.facultyName}
-              onChange={handleInputChange}
-              placeholder="Dr. John Doe"
-              size="small"
-              required
-            />
-            <FormInput
-              label="Designation"
-              name="designation"
-              icon={Briefcase}
-              value={formData.designation}
-              onChange={handleInputChange}
-              placeholder="Professor"
-              size="small"
-              required
-            />
-            <FormInput
-              label="Qualification"
-              name="qualification"
-              icon={GraduationCap}
-              value={formData.qualification}
-              onChange={handleInputChange}
-              placeholder="Ph.D"
-              size="small"
-              required
-            />
-            <FormInput
-              label="Experience (Years)"
-              name="totalExperience"
-              type="number"
-              icon={Activity}
-              value={formData.totalExperience}
-              onChange={handleInputChange}
-              placeholder="10"
-              size="small"
-              required
-            />
-            <FormInput
-              label="Email"
-              name="email"
-              type="email"
-              icon={Mail}
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="john@campus.edu"
-              size="small"
-              required
-            />
-            <FormInput
-              label="Phone"
-              name="phoneNumber"
-              icon={Phone}
-              value={formData.phoneNumber}
-              onChange={handleInputChange}
-              placeholder="+91 98765 43210"
-              size="small"
-              required
-            />
-
-            <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                Department
-              </label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {departments.map((dept) => (
-                  <button
-                    key={dept}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, department: dept })}
-                    className={`py-2 rounded-lg text-xs font-bold transition-all ${formData.department === dept ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+        {isAdmin && (
+          <Card
+            headerIcon={Camera}
+            headerTitle="Add Faculty"
+            headerSubtitle="Register new member"
+            className="h-fit"
+          >
+            <form onSubmit={handleSubmit} className="p-5 space-y-4">
+              {/* Image Upload */}
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  Profile Photo
+                </label>
+                {!formData.imageUrl ? (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    className={`flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+                      isDragging
+                        ? 'bg-blue-50 border-blue-400 scale-[1.01]'
+                        : 'bg-slate-50 border-slate-200 hover:bg-white hover:border-blue-400'
+                    }`}
                   >
-                    {dept}
-                  </button>
-                ))}
+                    <Upload
+                      className={`mb-2 ${isDragging ? 'text-blue-400' : 'text-slate-300'}`}
+                      size={24}
+                    />
+                    {isDragging ? (
+                      <p className="text-xs font-bold text-blue-400">Drop to upload</p>
+                    ) : (
+                      <>
+                        <p className="text-xs font-bold text-slate-400">
+                          Drag & drop or click to upload
+                        </p>
+                        <p className="text-[10px] text-slate-300 mt-0.5">PNG, JPG up to 2MB</p>
+                      </>
+                    )}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                ) : (
+                  <div className="relative h-32 rounded-xl overflow-hidden border border-slate-200 group">
+                    <img
+                      src={formData.imageUrl}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={removeImage}
+                        className="p-2 bg-white text-red-500 rounded-lg"
+                      >
+                        <X size={18} />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
 
-            <Button type="submit" loading={actionLoading} icon={UserPlus} fullWidth>
-              Add Faculty
-            </Button>
-          </form>
-        </Card>}
+              <FormInput
+                label="Faculty Name"
+                name="facultyName"
+                icon={UserIcon}
+                value={formData.facultyName}
+                onChange={handleInputChange}
+                placeholder="Dr. John Doe"
+                size="small"
+                required
+              />
+              <FormInput
+                label="Designation"
+                name="designation"
+                icon={Briefcase}
+                value={formData.designation}
+                onChange={handleInputChange}
+                placeholder="Professor"
+                size="small"
+                required
+              />
+              <FormInput
+                label="Qualification"
+                name="qualification"
+                icon={GraduationCap}
+                value={formData.qualification}
+                onChange={handleInputChange}
+                placeholder="Ph.D"
+                size="small"
+                required
+              />
+              <FormInput
+                label="Experience (Years)"
+                name="totalExperience"
+                type="number"
+                icon={Activity}
+                value={formData.totalExperience}
+                onChange={handleInputChange}
+                placeholder="10"
+                size="small"
+                required
+              />
+              <FormInput
+                label="Email"
+                name="email"
+                type="email"
+                icon={Mail}
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="john@campus.edu"
+                size="small"
+                required
+              />
+              <FormInput
+                label="Phone"
+                name="phoneNumber"
+                icon={Phone}
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                placeholder="+91 98765 43210"
+                size="small"
+                required
+              />
+
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                  Department
+                </label>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {departments.map((dept) => (
+                    <button
+                      key={dept}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, department: dept })}
+                      className={`py-2 rounded-lg text-xs font-bold transition-all ${formData.department === dept ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-500 hover:bg-slate-100'}`}
+                    >
+                      {dept}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <Button type="submit" loading={actionLoading} icon={UserPlus} fullWidth>
+                Add Faculty
+              </Button>
+            </form>
+          </Card>
+        )}
 
         {/* Faculty List */}
         <Card
@@ -373,9 +380,9 @@ const Faculty = () => {
                     Credentials
                   </th>
                   {isAdmin && (
-                  <th className="px-6 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    Actions
-                  </th>
+                    <th className="px-6 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   )}
                 </tr>
               </thead>
@@ -413,22 +420,22 @@ const Faculty = () => {
                         <p className="text-xs text-slate-400">{member.totalExperience}Y exp</p>
                       </td>
                       {isAdmin && (
-                      <td className="px-6 py-4">
-                        <div className="flex items-center justify-end gap-1">
-                          <button
-                            onClick={() => navigate(`/update-faculty/${member._id}`)}
-                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          >
-                            <Edit3 size={15} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(member._id)}
-                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                          >
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center justify-end gap-1">
+                            <button
+                              onClick={() => navigate(`/update-faculty/${member._id}`)}
+                              className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            >
+                              <Edit3 size={15} />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(member._id)}
+                              className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </td>
                       )}
                     </tr>
                   ))

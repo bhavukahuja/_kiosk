@@ -26,7 +26,9 @@ export const addBuilding = async (req, res) => {
     console.log(imageUrl);
 
     if (!name || !type || !coordinates || !coordinates.lat || !coordinates.lng) {
-      return res.status(400).json({ message: 'Name, type, and coordinates (lat,lng) are required' });
+      return res
+        .status(400)
+        .json({ message: 'Name, type, and coordinates (lat,lng) are required' });
     }
 
     const uploadedImageArray = [];
@@ -105,14 +107,13 @@ export const updateBuilding = async (req, res) => {
   }
 };
 
-
-export const deleteBuilding=async(req,res)=>{
-  try{
-    const {id}=req.params;
-    const deletedBuilding=await Building.findByIdAndDelete(id)
-    res.status(200).json({message:"Building deleted successfully",deletedBuilding}) 
-  }catch(err){
+export const deleteBuilding = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedBuilding = await Building.findByIdAndDelete(id);
+    res.status(200).json({ message: 'Building deleted successfully', deletedBuilding });
+  } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
-    console.log(err)
+    console.log(err);
   }
-}
+};

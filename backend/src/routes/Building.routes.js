@@ -13,6 +13,6 @@ router.post('/add', addBuilding);
 router.get('/all', getAllBuildings);
 router.get('/:id', getBuildingById);
 router.patch('/:id', updateBuilding);
-router.delete('/delete/:id',deleteBuilding)
+router.delete('/delete/:id', deleteBuilding);
 
 export default router;

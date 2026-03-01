@@ -40,7 +40,9 @@ const App = () => {
   return (
     <div className="">
       {!isLoginPage && <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
-      {!isLoginPage && <SideBar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
+      {!isLoginPage && (
+        <SideBar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      )}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
@@ -66,8 +68,8 @@ const App = () => {
           <Route path="/notification/:id" element={<Notification />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/ticket/:id" element={<Ticket />} />
-          <Route path='/blocks' element={<Blocks/>}/>
-          <Route path='/update-faculty/:id' element={<UpdateFaculty/>}/>
+          <Route path="/blocks" element={<Blocks />} />
+          <Route path="/update-faculty/:id" element={<UpdateFaculty />} />
         </Route>
       </Routes>
       {!isLoginPage && <Footer />}

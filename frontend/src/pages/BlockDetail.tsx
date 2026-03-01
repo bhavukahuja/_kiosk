@@ -78,7 +78,9 @@ const BlockDetail = () => {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-[40px] p-20 text-center border border-slate-100">
         <AlertCircle size={40} className="text-red-300 mb-6" />
-        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || t('blockDetail.blockNotFound')}</h3>
+        <h3 className="text-xl font-bold text-[#002b5c] mb-8">
+          {error || t('blockDetail.blockNotFound')}
+        </h3>
         <button
           onClick={() => navigate(-1)}
           className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-bold active:scale-95 transition-all text-sm"
@@ -126,7 +128,6 @@ const BlockDetail = () => {
 
       {/* Scrollable Body */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-12 lg:px-24 pb-20">
-
         {/* Hero Section */}
         <section className="flex flex-col lg:flex-row items-center lg:items-end gap-12 mb-20 border-b border-slate-100 pb-16">
           <div className="relative shrink-0">
@@ -164,7 +165,6 @@ const BlockDetail = () => {
 
         {/* About & Courses Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
-
           {/* About Department */}
           <div className="space-y-16">
             {about ? (

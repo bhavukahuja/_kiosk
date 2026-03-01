@@ -29,9 +29,7 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
               System Live
             </span>
           </div>
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-            Admin Portal
-          </h2>
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight">Admin Portal</h2>
         </div>
 
         <div className="hidden xl:flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 w-64 group focus-within:bg-white focus-within:border-slate-300 focus-within:ring-4 focus-within:ring-slate-100 transition-all">
@@ -46,12 +44,11 @@ const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
       <div className="flex flex-col items-center justify-center">
         <div className="text-2xl font-bold text-slate-900 tabular-nums tracking-tight">
-          {time
-            .toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })}
+          {time.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          })}
         </div>
         <div className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mt-0.5">
           {time.toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}

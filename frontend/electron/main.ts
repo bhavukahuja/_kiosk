@@ -153,4 +153,3 @@ app.whenReady().then(() => {
   createWindow();
   setupAutoUpdater();
 });
-

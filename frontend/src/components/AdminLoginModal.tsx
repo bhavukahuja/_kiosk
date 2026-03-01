@@ -46,14 +46,20 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
             <Lock size={24} />
             <h2 className="text-xl font-bold">{t('adminLogin.adminAccess')}</h2>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition" aria-label="Close modal">
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-white/10 rounded-full transition"
+            aria-label="Close modal"
+          >
             <X size={20} />
           </button>
         </div>
 
         <form onSubmit={handleLogin} className="p-8 space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">{t('adminLogin.adminId')}</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              {t('adminLogin.adminId')}
+            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Lock size={18} className="text-gray-400" />
@@ -70,7 +76,9 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">{t('adminLogin.password')}</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              {t('adminLogin.password')}
+            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Lock size={18} className="text-gray-400" />
@@ -91,7 +99,11 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
             disabled={loading}
             className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {loading ? <Loader2 className="animate-spin" size={20} /> : t('adminLogin.authenticate')}
+            {loading ? (
+              <Loader2 className="animate-spin" size={20} />
+            ) : (
+              t('adminLogin.authenticate')
+            )}
           </button>
         </form>
       </div>

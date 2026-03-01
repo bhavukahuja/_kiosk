@@ -4,31 +4,31 @@
   :root {
     --background: 240 10% 98%; /* slate-50 */
     --foreground: 240 10% 15%; /* slate-900 */
-    
+
     --card: 0 0% 100%;
     --card-foreground: 240 10% 15%;
-    
+
     --border: 240 5.9% 90%; /* slate-200 */
     --input: 240 5.9% 90%;
-    
+
     --primary: 240 5.9% 10%; /* slate-900 */
     --primary-foreground: 0 0% 98%; /* slate-50 */
-    
+
     --secondary: 240 4.8% 95.9%; /* slate-100 */
     --secondary-foreground: 240 5.9% 10%;
-    
+
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%; /* slate-500 */
-    
+
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
-    
+
     --radius: 0.75rem;
   }
-  
+
   body {
     @apply bg-slate-50 text-slate-900 antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 }
 
@@ -36,7 +36,7 @@
   .glass-panel {
     @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
   }
-  
+
   .soft-shadow {
     @apply shadow-[0_2px_10px_rgb(0,0,0,0.02),0_4px_20px_rgb(0,0,0,0.02)];
   }

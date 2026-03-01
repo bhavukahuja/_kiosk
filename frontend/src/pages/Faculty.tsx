@@ -22,7 +22,10 @@ interface FacultyMember {
   email: string;
   phoneNumber: string;
   department: 'CSE' | 'ECE' | 'MECH' | 'CIVIL' | 'EEE' | 'IT';
-  translations?: Record<string, { facultyName?: string; designation?: string; qualification?: string }>;
+  translations?: Record<
+    string,
+    { facultyName?: string; designation?: string; qualification?: string }
+  >;
   __v?: number;
 }
 
@@ -68,7 +71,9 @@ export const Faculty = () => {
   const filteredFaculty = useMemo(() => {
     return faculty.filter((member) => {
       const matchesDept = member.department === selectedDept;
-      const matchesSearch = localized(member, 'facultyName', i18n.language).toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = localized(member, 'facultyName', i18n.language)
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
       return matchesDept && matchesSearch;
     });
   }, [faculty, selectedDept, searchQuery]);
@@ -84,7 +89,9 @@ export const Faculty = () => {
                 {t('faculty.departmentDirectory')}
               </span>
             </div>
-            <h2 className="text-4xl font-black text-[#002b5c] tracking-tight">{t('faculty.ourFaculty')}</h2>
+            <h2 className="text-4xl font-black text-[#002b5c] tracking-tight">
+              {t('faculty.ourFaculty')}
+            </h2>
           </div>
 
           <div className="flex items-center gap-3 bg-slate-100/50 p-1.5 rounded-xl border border-slate-200 w-72 transition-all focus-within:ring-2 focus-within:ring-[#002b5c]/10">
@@ -176,7 +183,9 @@ export const Faculty = () => {
         ) : (
           <div className="h-full flex flex-col items-center justify-center opacity-40 text-slate-400 grayscale">
             <Building2 size={100} strokeWidth={1} />
-            <h3 className="text-xl font-black mt-4 uppercase tracking-widest">{t('faculty.noEntries')}</h3>
+            <h3 className="text-xl font-black mt-4 uppercase tracking-widest">
+              {t('faculty.noEntries')}
+            </h3>
           </div>
         )}
       </div>

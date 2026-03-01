@@ -18,7 +18,7 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const menuItems = [
     { label: 'Dashboard', icon: LayoutDashboard, route: '/dashboard' },
     { label: 'Faculty', icon: Users, route: '/faculty' },
-    {label:'Blocks', icon: Building, route: '/blocks'},
+    { label: 'Blocks', icon: Building, route: '/blocks' },
     { label: 'Notifications', icon: Bell, route: '/notifications' },
     { label: 'Help Tickets', icon: Ticket, route: '/help-requests' },
   ];
@@ -59,75 +59,80 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-      <div className="p-6 shrink-0 border-b border-slate-200/50">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="p-2 bg-white rounded-lg shadow-sm border border-slate-200">
-            <ShieldCheck size={20} className="text-slate-700" />
+        <div className="p-6 shrink-0 border-b border-slate-200/50">
+          <div className="flex items-center gap-3 mb-1">
+            <div className="p-2 bg-white rounded-lg shadow-sm border border-slate-200">
+              <ShieldCheck size={20} className="text-slate-700" />
+            </div>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+              Admin Portal
+            </span>
           </div>
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-            Admin Portal
-          </span>
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight mt-2">Smart Console</h1>
         </div>
-        <h1 className="text-xl font-bold text-slate-900 tracking-tight mt-2">
-          Smart Console
-        </h1>
-      </div>
 
-      <nav className="flex-1 px-4 overflow-y-auto custom-scrollbar pt-6">
-        <div className="mb-6">
-          <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-            Main Menu
-          </p>
-          {menuItems.map((item) => (
+        <nav className="flex-1 px-4 overflow-y-auto custom-scrollbar pt-6">
+          <div className="mb-6">
+            <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+              Main Menu
+            </p>
+            {menuItems.map((item) => (
+              <NavLink
+                key={item.label}
+                to={item.route}
+                onClick={() => setIsSidebarOpen(false)}
+                className={({ isActive }) => getNavLinkClass(isActive)}
+              >
+                {({ isActive }) => (
+                  <>
+                    <item.icon
+                      size={18}
+                      className={
+                        isActive ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-600'
+                      }
+                    />
+                    <span className="text-sm">{item.label}</span>
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="mt-6">
+            <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+              System
+            </p>
             <NavLink
-              key={item.label}
-              to={item.route}
+              to="/settings"
               onClick={() => setIsSidebarOpen(false)}
               className={({ isActive }) => getNavLinkClass(isActive)}
             >
               {({ isActive }) => (
                 <>
-                  <item.icon
+                  <Settings
                     size={18}
-                    className={isActive ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-600'}
+                    className={
+                      isActive ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-600'
+                    }
                   />
-                  <span className="text-sm">{item.label}</span>
+                  <span className="text-sm">Settings</span>
                 </>
               )}
             </NavLink>
-          ))}
-        </div>
+          </div>
+        </nav>
 
-        <div className="mt-6">
-          <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-            System
-          </p>
-          <NavLink 
-            to="/settings" 
-            onClick={() => setIsSidebarOpen(false)}
-            className={({ isActive }) => getNavLinkClass(isActive)}
+        <div className="p-4 border-t border-slate-200/50 bg-slate-50/50">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-2 py-2.5 bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200 rounded-xl transition-all font-medium text-sm shadow-sm"
           >
-            {({ isActive }) => (
-              <>
-                <Settings size={18} className={isActive ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-600'} />
-                <span className="text-sm">Settings</span>
-              </>
-            )}
-          </NavLink>
+            <LogOut size={16} />
+            Logout
+          </button>
         </div>
-      </nav>
 
-      <div className="p-4 border-t border-slate-200/50 bg-slate-50/50">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 py-2.5 bg-white hover:bg-slate-100 text-slate-600 hover:text-slate-900 border border-slate-200 rounded-xl transition-all font-medium text-sm shadow-sm"
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
-      </div>
-
-      <style>{`
+        <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { 
@@ -135,7 +140,7 @@ const SideBar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           border-radius: 10px;
         }
       `}</style>
-    </aside>
+      </aside>
     </>
   );
 };

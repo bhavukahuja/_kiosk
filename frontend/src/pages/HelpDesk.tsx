@@ -318,7 +318,8 @@ const HelpDesk = () => {
               {/* Operational Description */}
               <div className="space-y-4">
                 <label className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em] ml-2 flex items-center gap-3">
-                  <MessageSquare size={14} className="text-blue-500" /> {t('helpDesk.rootCauseAnalysis')}
+                  <MessageSquare size={14} className="text-blue-500" />{' '}
+                  {t('helpDesk.rootCauseAnalysis')}
                 </label>
                 <textarea
                   value={formData.description}
@@ -346,7 +347,9 @@ const HelpDesk = () => {
                   <Loader2 className="animate-spin" size={32} />
                 ) : (
                   <>
-                    <span className="tracking-[0.1em] uppercase italic">{t('helpDesk.initiateBroadcast')}</span>
+                    <span className="tracking-[0.1em] uppercase italic">
+                      {t('helpDesk.initiateBroadcast')}
+                    </span>
                     <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                       <Send
                         size={24}

@@ -18,7 +18,8 @@ const Button = ({
 
   const variantClasses = {
     primary: 'bg-slate-900 text-white hover:bg-slate-800:bg-slate-100 shadow-sm',
-    secondary: 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50:bg-slate-700 shadow-sm',
+    secondary:
+      'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50:bg-slate-700 shadow-sm',
     ghost: 'bg-transparent text-slate-600 hover:bg-slate-100:bg-slate-800',
     danger: 'bg-red-500 text-white hover:bg-red-600 shadow-sm',
   };

@@ -69,7 +69,11 @@ const Notifications = () => {
             placeholder="Search announcements..."
             className="w-full sm:w-64"
           />
-          <Button icon={Plus} onClick={() => navigate('/create-notifications')} className="flex-1 sm:flex-none">
+          <Button
+            icon={Plus}
+            onClick={() => navigate('/create-notifications')}
+            className="flex-1 sm:flex-none"
+          >
             Create
           </Button>
           <button

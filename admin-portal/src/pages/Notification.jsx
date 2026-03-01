@@ -82,7 +82,9 @@ const Notification = () => {
         <div className="w-24 h-24 bg-red-50 rounded-3xl flex items-center justify-center mb-8 border border-red-100">
           <AlertCircle size={48} className="text-red-400" />
         </div>
-        <h3 className="text-2xl sm:text-3xl font-black text-slate-800 mb-4">{error || 'Bulletin Not Found'}</h3>
+        <h3 className="text-2xl sm:text-3xl font-black text-slate-800 mb-4">
+          {error || 'Bulletin Not Found'}
+        </h3>
         <button
           onClick={() => navigate('/notifications')}
           className="px-8 sm:px-10 py-3 sm:py-4 bg-slate-900 text-white rounded-2xl font-black text-base sm:text-lg shadow-xl shadow-blue-900/20 active:scale-95 transition-all"

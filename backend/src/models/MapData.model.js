@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const nodeSchema = new mongoose.Schema(
   {
-    id:  { type: String, required: true },
+    id: { type: String, required: true },
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
   },
@@ -12,7 +12,7 @@ const nodeSchema = new mongoose.Schema(
 const segmentSchema = new mongoose.Schema(
   {
     from: { type: String, required: true },
-    to:   { type: String, required: true },
+    to: { type: String, required: true },
   },
   { _id: false }
 );
@@ -35,8 +35,8 @@ const mapDataSchema = new mongoose.Schema(
   {
     // One document per kiosk/campus; use kioskId to scope if needed
     kioskId: { type: String, default: 'default' },
-    nodes:   [nodeSchema],
-    paths:   [pathSchema],
+    nodes: [nodeSchema],
+    paths: [pathSchema],
   },
   { timestamps: true }
 );

@@ -2,5 +2,5 @@
 /// <reference types="node" />
 
 interface Window {
-    ipcRenderer: import('electron').ipcRenderer;
+  ipcRenderer: import('electron').ipcRenderer;
 }
