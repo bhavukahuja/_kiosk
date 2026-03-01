@@ -1,8 +1,17 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import Store from 'electron-store';
+import { autoUpdater } from 'electron-updater';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Initialize electron store
+const store = new Store({
+  defaults: {
+    githubRepo: 'mannuvilasara/kiosk-bfgi',
+  },
+});
 
 // The built directory structure
 //
@@ -70,4 +79,74 @@ ipcMain.on('set-zoom-level', (_event, level: number) => {
   }
 });
 
-app.whenReady().then(createWindow);
+// Settings & Store IPC
+ipcMain.handle('get-store-val', (_event, key: string) => {
+  return store.get(key);
+});
+
+ipcMain.handle('set-store-val', (_event, key: string, val: string | number | boolean | object) => {
+  store.set(key, val);
+  return store.get(key);
+});
+
+// Auto Update logic
+function setupAutoUpdater() {
+  autoUpdater.logger = console;
+  autoUpdater.autoDownload = false;
+  autoUpdater.allowPrerelease = false;
+
+  const configureRepo = () => {
+    const repo = store.get('githubRepo') as string;
+    if (repo && repo.includes('/')) {
+      const [owner, name] = repo.split('/');
+      autoUpdater.setFeedURL({
+        provider: 'github',
+        owner: owner,
+        repo: name,
+      });
+    }
+  };
+
+  configureRepo();
+
+  ipcMain.on('check-for-updates', () => {
+    configureRepo();
+    autoUpdater.checkForUpdates().catch((err) => {
+      win?.webContents.send('update-error', err?.message);
+    });
+  });
+
+  autoUpdater.on('update-available', (info) => {
+    win?.webContents.send('update-available', info);
+  });
+
+  autoUpdater.on('update-not-available', (info) => {
+    win?.webContents.send('update-not-available', info);
+  });
+
+  autoUpdater.on('error', (err) => {
+    win?.webContents.send('update-error', err?.message);
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    win?.webContents.send('download-progress', progressObj.percent);
+  });
+
+  autoUpdater.on('update-downloaded', () => {
+    win?.webContents.send('update-downloaded');
+  });
+
+  ipcMain.on('install-update', () => {
+    autoUpdater.quitAndInstall();
+  });
+
+  ipcMain.on('start-download', () => {
+    autoUpdater.downloadUpdate();
+  });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  setupAutoUpdater();
+});
+

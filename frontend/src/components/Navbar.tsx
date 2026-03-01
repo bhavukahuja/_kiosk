@@ -15,7 +15,7 @@ const Navbar = () => {
   const [logoClicks, setLogoClicks] = useState(0);
   const [adminModalOpen, setAdminModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { t, i18n } = useTranslation();
 

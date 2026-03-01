@@ -7,7 +7,6 @@ import {
   CheckCircle2,
   AlertCircle,
   MessageSquare,
-  Bug,
   ChevronDown,
   Keyboard as KeyboardIcon,
   X,
@@ -15,7 +14,6 @@ import {
   ArrowUp,
   Terminal,
   Layers,
-  Fingerprint,
   ShieldCheck,
   Zap,
 } from 'lucide-react';
@@ -83,7 +81,9 @@ const VirtualKeyboard = forwardRef<
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
+            title="Close keyboard"
             className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-400 hover:text-red-500 transition-all active:scale-90 shadow-sm"
           >
             <X size={20} />
@@ -94,7 +94,6 @@ const VirtualKeyboard = forwardRef<
           {currentLayout.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center gap-2.5">
               {row.map((key) => {
-                const isAction = ['SHIFT', 'BKSP', 'DONE', 'SPACE'].includes(key);
                 return (
                   <button
                     key={key}
@@ -196,7 +195,7 @@ const HelpDesk = () => {
       await axios.post('/api/help-ticket/create', formData);
       setIsSuccess(true);
       setFormData({ subject: '', description: '', category: 'other' });
-    } catch (err: any) {
+    } catch {
       setError('Diagnostic Failure: Remote server rejected transmission.');
     } finally {
       setIsSubmitting(false);
@@ -297,6 +296,7 @@ const HelpDesk = () => {
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData((p) => ({ ...p, category: e.target.value }))}
+                      title="Select system category for the support ticket"
                       className="w-full bg-white border border-slate-200 rounded-[24px] py-5 px-6 text-xl font-bold text-[#002b5c] appearance-none focus:outline-none focus:border-[#002b5c] transition-all cursor-pointer shadow-sm group-hover:border-slate-300"
                     >
                       <option value="software">Software Defect</option>

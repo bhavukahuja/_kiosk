@@ -29,8 +29,9 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
         onClose();
         navigate('/settings');
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+    } catch (error: unknown) {
+      const errorMessage = axios.isAxiosError(error) ? error.response?.data?.message : 'Login failed';
+      toast.error(errorMessage || 'Login failed');
     } finally {
       setLoading(false);
     }
@@ -44,7 +45,7 @@ const AdminLoginModal: React.FC<AdminLoginModalProps> = ({ isOpen, onClose }) =>
             <Lock size={24} />
             <h2 className="text-xl font-bold">Admin Access</h2>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition">
+          <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition" aria-label="Close modal">
             <X size={20} />
           </button>
         </div>

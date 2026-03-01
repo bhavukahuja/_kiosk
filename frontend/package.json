@@ -1,7 +1,6 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
+  "name": "campus-kiosk",
+  "version": "0.0.1",
   "description": "Kiosk Application",
   "author": "Manpreet Singh <mannuvilasara@gmail.com>",
   "homepage": "https://kiosk.com",
@@ -10,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && electron-builder",
+    "build:publish": "tsc -b && vite build && electron-builder --publish always",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -23,6 +23,13 @@
       "dist",
       "dist-electron"
     ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "mannuvilasara",
+        "repo": "kiosk-bfgi"
+      }
+    ],
     "linux": {
       "target": [
         "AppImage"
@@ -32,6 +39,8 @@
   },
   "dependencies": {
     "axios": "^1.13.5",
+    "electron-store": "^11.0.2",
+    "electron-updater": "^6.8.3",
     "i18next": "^25.8.13",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.575.0",
@@ -44,6 +53,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@tailwindcss/vite": "^4.2.0",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
