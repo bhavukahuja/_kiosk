@@ -25,7 +25,7 @@ function getCoordinatesFromPath(pathId: string, nodeMap: Map<string, LatLng>, pa
 
 // ── Component ─────────────────────────────────────────────────────────────────
 const Navigation = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   /** Resolve a path label to the current UI language, falling back to English. */
   const resolveLabel = (label: MapPath['label']): string => {
@@ -54,7 +54,7 @@ const Navigation = () => {
     axios
       .get('/api/kiosk/map-data')
       .then((res) => setMapData(res.data))
-      .catch(() => setDataError('Failed to load map data from server.'))
+      .catch(() => setDataError(t('navigation.failedToLoad')))
       .finally(() => setLoadingData(false));
   }, [mapStarted]);
 
@@ -115,7 +115,7 @@ const Navigation = () => {
         fillOpacity: 1,
       })
         .addTo(map)
-        .bindTooltip('You Are Here', { permanent: true, direction: 'top', className: 'leaflet-tooltip-you' });
+        .bindTooltip(t('navigation.youAreHere'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-you' });
     }
 
     leafletMapRef.current = map;
@@ -159,7 +159,7 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#16a34a',
       fillOpacity: 1,
-    }).addTo(map).bindTooltip('Start', { permanent: true, direction: 'top', className: 'leaflet-tooltip-start' });
+    }).addTo(map).bindTooltip(t('navigation.start'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-start' });
 
     // Red end marker
     const last = latlngs[latlngs.length - 1];
@@ -169,7 +169,7 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#dc2626',
       fillOpacity: 1,
-    }).addTo(map).bindTooltip('Destination', { permanent: true, direction: 'top', className: 'leaflet-tooltip-end' });
+    }).addTo(map).bindTooltip(t('navigation.destination'), { permanent: true, direction: 'top', className: 'leaflet-tooltip-end' });
 
     map.fitBounds(polyline.getBounds(), { padding: [60, 60] });
   }
@@ -192,14 +192,14 @@ const Navigation = () => {
           <div className="flex items-center gap-2 mb-1">
             <Navigation2 size={12} className="text-[#002b5c]/40" />
             <span className="text-[9px] font-black text-[#002b5c]/40 uppercase tracking-[0.3em]">
-              Campus Wayfinding
+              {t('navigation.campusWayfinding')}
             </span>
           </div>
           <h2 className="text-2xl font-black text-[#002b5c] tracking-tight leading-none">
-            Navigate
+            {t('navigation.navigate')}
           </h2>
           <p className="text-[10px] text-slate-400 font-semibold mt-1">
-            Select a destination below
+            {t('navigation.selectDestination')}
           </p>
         </div>
 
@@ -207,20 +207,20 @@ const Navigation = () => {
         <div className="mx-5 mt-5 flex items-center gap-3 bg-[#002b5c]/5 rounded-2xl px-4 py-3 shrink-0">
           <div className="w-3 h-3 rounded-full bg-[#002b5c] ring-4 ring-[#002b5c]/20" />
           <span className="text-[9px] font-black text-[#002b5c] uppercase tracking-widest">
-            You Are Here — Kiosk
+            {t('navigation.youAreHere')}
           </span>
         </div>
 
         {/* Destination list */}
         <div className="flex-1 overflow-y-auto px-4 mt-4 space-y-2 pb-4" style={{scrollbarWidth:'thin'}}>
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] px-2 mb-3">
-            Destinations
+            {t('navigation.destinations')}
           </p>
 
           {loadingData && (
             <div className="flex items-center gap-2 px-2 py-3">
               <Loader2 size={14} className="text-[#002b5c] animate-spin" />
-              <span className="text-[10px] font-bold text-slate-400">Loading routes…</span>
+              <span className="text-[10px] font-bold text-slate-400">{t('navigation.loadingRoutes')}</span>
             </div>
           )}
 
@@ -256,13 +256,13 @@ const Navigation = () => {
 
         {/* Legend */}
         <div className="px-6 py-4 border-t border-slate-100 space-y-2 shrink-0">
-          <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2">Legend</p>
+          <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2">{t('navigation.legend')}</p>
           {[
-            { color: '#002b5c', label: 'Kiosk (You Are Here)' },
-            { color: '#1d4ed8', label: 'Route' },
-            { color: '#16a34a', label: 'Start' },
-            { color: '#dc2626', label: 'Destination' },
-            { color: '#94a3b8', label: 'Node' },
+            { color: '#002b5c', label: t('navigation.kiosk') },
+            { color: '#1d4ed8', label: t('navigation.route') },
+            { color: '#16a34a', label: t('navigation.start') },
+            { color: '#dc2626', label: t('navigation.destination') },
+            { color: '#94a3b8', label: t('navigation.node') },
           ].map((item) => (
             <div key={item.label} className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} />
@@ -289,13 +289,13 @@ const Navigation = () => {
             </div>
 
             <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-2">
-              Baba Farid Group of Institutions
+              {t('navigation.bfgi')}
             </p>
             <h1 className="text-3xl font-black text-white tracking-tight mb-2">
-              Campus Navigation
+              {t('navigation.campusNavigation')}
             </h1>
             <p className="text-xs text-white/40 font-semibold mb-10 text-center max-w-xs leading-relaxed">
-              Interactive satellite map with walking directions to buildings, hostels &amp; facilities.
+              {t('navigation.mapDescription')}
             </p>
 
             <button
@@ -303,11 +303,11 @@ const Navigation = () => {
               className="flex items-center gap-3 bg-[#1d4ed8] hover:bg-[#1e40af] active:scale-95 text-white font-black text-sm px-8 py-4 rounded-2xl transition-all shadow-lg"
             >
               <Navigation2 size={16} />
-              Start Navigation
+              {t('navigation.startNavigation')}
             </button>
 
             <p className="text-[9px] text-white/20 font-semibold mt-6 uppercase tracking-widest">
-              Tap to load satellite map
+              {t('navigation.tapToLoad')}
             </p>
           </div>
         )}

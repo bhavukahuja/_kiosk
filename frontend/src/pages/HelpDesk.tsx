@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   LifeBuoy,
@@ -32,6 +33,7 @@ const VirtualKeyboard = forwardRef<
   }
 >(({ onKeyPress, onClose, activeInputName }, ref) => {
   const [isShift, setIsShift] = useState(false);
+  const { t } = useTranslation();
 
   const layouts = {
     default: [
@@ -73,10 +75,10 @@ const VirtualKeyboard = forwardRef<
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">
-                Hardware Interface
+                {t('helpDesk.hardwareInterface')}
               </p>
               <p className="text-sm font-bold text-[#002b5c] tracking-tight uppercase italic">
-                Active Input: {activeInputName}
+                {t('helpDesk.activeInput', { name: activeInputName })}
               </p>
             </div>
           </div>
@@ -112,9 +114,9 @@ const VirtualKeyboard = forwardRef<
                     ) : key === 'SHIFT' ? (
                       <ArrowUp size={24} />
                     ) : key === 'DONE' ? (
-                      'CONFIRM'
+                      t('keyboard.confirm')
                     ) : key === 'SPACE' ? (
-                      'SPACE'
+                      t('keyboard.space')
                     ) : (
                       key
                     )}
@@ -144,6 +146,7 @@ const HelpDesk = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeInput, setActiveInput] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const keyboardRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -183,7 +186,7 @@ const HelpDesk = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.subject || !formData.description) {
-      setError('Incomplete Payload: All mandatory fields must be populated.');
+      setError(t('helpDesk.incompletePayload'));
       return;
     }
 
@@ -195,8 +198,8 @@ const HelpDesk = () => {
       await axios.post('/api/help-ticket/create', formData);
       setIsSuccess(true);
       setFormData({ subject: '', description: '', category: 'other' });
-    } catch {
-      setError('Diagnostic Failure: Remote server rejected transmission.');
+    } catch (err: any) {
+      setError(t('helpDesk.diagnosticFailure'));
     } finally {
       setIsSubmitting(false);
     }
@@ -214,11 +217,11 @@ const HelpDesk = () => {
             <div className="flex items-center gap-2 mb-0.5">
               <Zap size={14} className="text-blue-500 fill-blue-500" />
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em]">
-                Service Uplink
+                {t('helpDesk.serviceUplink')}
               </span>
             </div>
             <h1 className="text-4xl font-black text-[#002b5c] tracking-tighter">
-              Support Terminal
+              {t('helpDesk.supportTerminal')}
             </h1>
           </div>
         </div>
@@ -228,11 +231,11 @@ const HelpDesk = () => {
             <div className="flex items-center justify-end gap-2 mb-1">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-[9px] font-black text-[#002b5c] uppercase tracking-widest leading-none">
-                Diagnostic Mode Active
+                {t('helpDesk.diagnosticMode')}
               </span>
             </div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-              Environment v4.2.0
+              {t('helpDesk.environment')}
             </p>
           </div>
           <ShieldCheck size={32} className="text-[#002b5c] opacity-20" />
@@ -251,16 +254,16 @@ const HelpDesk = () => {
                 <CheckCircle2 size={48} />
               </div>
               <h2 className="text-3xl font-black text-[#002b5c] tracking-tight mb-3 uppercase italic">
-                Transmission Confirmed
+                {t('helpDesk.transmissionConfirmed')}
               </h2>
               <p className="text-lg text-slate-400 font-medium max-w-sm mx-auto leading-relaxed">
-                Report logged in central registry. Administrative review initiated.
+                {t('helpDesk.reportLogged')}
               </p>
               <button
                 onClick={() => setIsSuccess(false)}
                 className="mt-12 px-12 py-4 bg-[#002b5c] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] active:scale-95 transition-all shadow-2xl shadow-blue-900/20"
               >
-                End Session
+                {t('helpDesk.endSession')}
               </button>
             </div>
           ) : (
@@ -276,13 +279,13 @@ const HelpDesk = () => {
                 {/* Subject Heading */}
                 <div className="space-y-4">
                   <label className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em] ml-2 flex items-center gap-3">
-                    <Terminal size={14} className="text-blue-500" /> Incident Heading
+                    <Terminal size={14} className="text-blue-500" /> {t('helpDesk.incidentHeading')}
                   </label>
                   <input
                     value={formData.subject}
                     readOnly
                     onFocus={() => setActiveInput('Heading')}
-                    placeholder="Short summary of bug..."
+                    placeholder={t('helpDesk.subjectPlaceholder')}
                     className={`w-full bg-white border border-slate-200 rounded-[24px] py-5 px-6 text-xl font-bold text-[#002b5c] transition-all outline-none ${activeInput === 'Heading' ? 'border-[#002b5c] shadow-2xl ring-8 ring-[#002b5c]/5' : 'hover:border-slate-300 shadow-sm'}`}
                   />
                 </div>
@@ -290,7 +293,7 @@ const HelpDesk = () => {
                 {/* Category Selection */}
                 <div className="space-y-4">
                   <label className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em] ml-2 flex items-center gap-3">
-                    <Layers size={14} className="text-blue-500" /> System Category
+                    <Layers size={14} className="text-blue-500" /> {t('helpDesk.systemCategory')}
                   </label>
                   <div className="relative group">
                     <select
@@ -299,10 +302,10 @@ const HelpDesk = () => {
                       title="Select system category for the support ticket"
                       className="w-full bg-white border border-slate-200 rounded-[24px] py-5 px-6 text-xl font-bold text-[#002b5c] appearance-none focus:outline-none focus:border-[#002b5c] transition-all cursor-pointer shadow-sm group-hover:border-slate-300"
                     >
-                      <option value="software">Software Defect</option>
-                      <option value="hardware">Terminal Issue</option>
-                      <option value="network">Connectivity Log</option>
-                      <option value="other">Other Anomaly</option>
+                      <option value="software">{t('helpDesk.softwareDefect')}</option>
+                      <option value="hardware">{t('helpDesk.terminalIssue')}</option>
+                      <option value="network">{t('helpDesk.connectivityLog')}</option>
+                      <option value="other">{t('helpDesk.otherAnomaly')}</option>
                     </select>
                     <ChevronDown
                       className="absolute right-6 top-1/2 -translate-y-1/2 text-[#002b5c] pointer-events-none transition-transform group-active:translate-y-0"
@@ -315,7 +318,7 @@ const HelpDesk = () => {
               {/* Operational Description */}
               <div className="space-y-4">
                 <label className="text-[11px] font-black text-slate-500 uppercase tracking-[0.3em] ml-2 flex items-center gap-3">
-                  <MessageSquare size={14} className="text-blue-500" /> Root Cause Analysis
+                  <MessageSquare size={14} className="text-blue-500" /> {t('helpDesk.rootCauseAnalysis')}
                 </label>
                 <textarea
                   value={formData.description}
@@ -328,7 +331,7 @@ const HelpDesk = () => {
                     );
                   }}
                   rows={5}
-                  placeholder="Provide precise details for the engineering team..."
+                  placeholder={t('helpDesk.descriptionPlaceholder')}
                   className={`w-full bg-white border border-slate-200 rounded-[32px] py-7 px-8 text-xl font-medium text-slate-600 transition-all outline-none leading-relaxed resize-none ${activeInput === 'Description' ? 'border-[#002b5c] shadow-2xl ring-8 ring-[#002b5c]/5' : 'hover:border-slate-300 shadow-sm'}`}
                 />
               </div>
@@ -343,7 +346,7 @@ const HelpDesk = () => {
                   <Loader2 className="animate-spin" size={32} />
                 ) : (
                   <>
-                    <span className="tracking-[0.1em] uppercase italic">Initiate Broadcast</span>
+                    <span className="tracking-[0.1em] uppercase italic">{t('helpDesk.initiateBroadcast')}</span>
                     <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                       <Send
                         size={24}

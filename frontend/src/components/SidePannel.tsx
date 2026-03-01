@@ -46,7 +46,7 @@ const SidePanel = () => {
           />
           <input
             type="text"
-            placeholder="Search for room, faculty..."
+            placeholder={t('sidebar.search')}
             className="w-full bg-slate-50 border border-slate-200 rounded-[24px] py-5 pl-14 pr-6 text-lg focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-inner"
           />
         </div>
@@ -86,7 +86,7 @@ const SidePanel = () => {
           )}
         </NavLink>
         <p className="text-xs text-slate-400 mt-5 px-4 leading-relaxed text-center font-medium">
-          Upcoming maintenance: Friday at 5 PM
+          {t('sidebar.maintenance')}
         </p>
       </div>
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   Building2,
@@ -40,6 +41,7 @@ const Blocks = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const DEFAULT_IMAGE =
     'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop';
@@ -65,7 +67,7 @@ const Blocks = () => {
       setBlocks(data);
     } catch (err) {
       console.error('Kiosk Blocks Fetch Error:', err);
-      setError('Unable to synchronize campus infrastructure data.');
+      setError(t('blocks.unableToSync'));
       setBlocks([]); // Ensure blocks is empty array on error to prevent filter crash
     } finally {
       setLoading(false);
@@ -110,7 +112,7 @@ const Blocks = () => {
           </div>
         </div>
         <p className="mt-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] animate-pulse">
-          Mapping Infrastructure
+          {t('blocks.mappingInfrastructure')}
         </p>
       </div>
     );
@@ -124,11 +126,11 @@ const Blocks = () => {
             <div className="flex items-center gap-2 mb-1">
               <Navigation className="text-[#002b5c]/40" size={14} />
               <span className="text-[#002b5c] font-black text-[9px] tracking-[0.3em] uppercase opacity-40">
-                Spatial Registry
+                {t('blocks.spatialRegistry')}
               </span>
             </div>
             <h2 className="text-3xl font-black text-[#002b5c] tracking-tight leading-none">
-              Building Directory
+              {t('blocks.buildingDirectory')}
             </h2>
           </div>
 
@@ -139,7 +141,7 @@ const Blocks = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by block name or code..."
+              placeholder={t('blocks.searchPlaceholder')}
               className="bg-transparent py-2.5 pr-4 text-sm font-bold text-[#002b5c] w-full placeholder:text-slate-300 outline-none"
             />
           </div>
@@ -156,7 +158,7 @@ const Blocks = () => {
               onClick={fetchBlocks}
               className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-black text-sm uppercase tracking-widest active:scale-95 transition-all shadow-lg"
             >
-              Retry Connection
+              {t('common.retryConnection')}
             </button>
           </div>
         ) : filteredBlocks.length > 0 ? (
@@ -179,7 +181,7 @@ const Blocks = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
 
                   <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md border border-white/20 px-3 py-1 rounded-lg text-white text-[8px] font-black uppercase tracking-widest">
-                    {block.type || 'Facility'}
+                    {block.type || t('common.facility')}
                   </div>
 
                   <div className="absolute bottom-4 left-6 text-white">
@@ -187,7 +189,7 @@ const Blocks = () => {
                       {block.code || 'N/A'}
                     </p>
                     <p className="text-[8px] font-bold uppercase tracking-[0.2em] opacity-60">
-                      Block Code
+                      {t('common.blockCode')}
                     </p>
                   </div>
                 </div>
@@ -198,7 +200,7 @@ const Blocks = () => {
                   </h3>
                   <p className="text-slate-400 text-xs font-medium line-clamp-2 mb-6 leading-relaxed">
                     {block.description ||
-                      'Official campus infrastructure providing high-quality educational spaces.'}
+                      t('blocks.defaultDescription')}
                   </p>
 
                   <div className="mt-auto flex items-center justify-between border-t border-slate-50 pt-4">
@@ -208,15 +210,15 @@ const Blocks = () => {
                       </div>
                       <div>
                         <p className="text-[8px] font-black text-slate-300 uppercase tracking-widest leading-none mb-0.5">
-                          Scale
+                          {t('blocks.scale')}
                         </p>
                         <p className="text-xs font-bold text-[#002b5c]">
-                          {block.totalFloors || 0} Levels
+                          {block.totalFloors || 0} {t('common.levels')}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5 text-[#002b5c] font-black text-[9px] uppercase tracking-widest group-hover:gap-2.5 transition-all opacity-40 group-hover:opacity-100">
-                      Details <ChevronRight size={12} strokeWidth={4} />
+                      {t('common.details')} <ChevronRight size={12} strokeWidth={4} />
                     </div>
                   </div>
                 </div>
@@ -229,9 +231,9 @@ const Blocks = () => {
               <Building2 size={60} strokeWidth={1} />
             </div>
             <h3 className="text-xl font-black uppercase tracking-widest text-[#002b5c]">
-              No Matches
+              {t('blocks.noMatches')}
             </h3>
-            <p className="text-sm font-bold mt-2">Adjust your search parameters</p>
+            <p className="text-sm font-bold mt-2">{t('blocks.adjustSearch')}</p>
           </div>
         )}
       </div>
@@ -241,12 +243,12 @@ const Blocks = () => {
         <div className="flex items-center gap-2">
           <div className="w-1 h-1 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]" />
           <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">
-            Operational Status: Ready
+            {t('blocks.operationalStatus')}
           </span>
         </div>
         <div className="w-px h-3 bg-slate-200" />
         <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.2em]">
-          Kiosk Node ALPHA-01
+          {t('blocks.kioskNode')}
         </span>
       </div>
 

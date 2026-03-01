@@ -17,7 +17,7 @@ const AnnouncementDetail = () => {
   const [data, setData] = useState<Announcement | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
@@ -26,7 +26,7 @@ const AnnouncementDetail = () => {
     axios
       .get(`/api/announcement/${id}`, { params: { lang: i18n.language } })
       .then((res) => setData(res.data.announcement))
-      .catch(() => setError('Could not load this announcement.'))
+      .catch(() => setError(t('announcements.couldNotLoad')))
       .finally(() => setLoading(false));
   }, [id, i18n.language]);
 
@@ -54,12 +54,12 @@ const AnnouncementDetail = () => {
   if (error || !data)
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-3xl gap-5 border border-gray-100">
-        <p className="text-2xl font-bold text-gray-400">{error ?? 'Announcement not found'}</p>
+        <p className="text-2xl font-bold text-gray-400">{error ?? t('announcements.notFound')}</p>
         <button
           onClick={() => navigate(-1)}
           className="px-8 py-4 bg-[#002b5c] text-white rounded-2xl font-bold text-lg active:scale-95 transition-all"
         >
-          Go Back
+          {t('announcements.goBack')}
         </button>
       </div>
     );
@@ -86,13 +86,13 @@ const AnnouncementDetail = () => {
             className="flex items-center gap-3 bg-white/10 hover:bg-white/20 active:scale-95 transition-all px-5 py-3 rounded-2xl"
           >
             <ArrowLeft size={22} className="text-white" />
-            <span className="text-white font-bold text-base tracking-wide">Back</span>
+            <span className="text-white font-bold text-base tracking-wide">{t('common.back')}</span>
           </button>
 
           <div className="flex items-center gap-2 bg-blue-500/30 border border-blue-400/30 px-4 py-2 rounded-full">
             <Megaphone size={16} className="text-blue-200" />
             <span className="text-blue-100 text-xs font-black uppercase tracking-widest">
-              Official Notice
+              {t('announcements.officialNotice')}
             </span>
           </div>
         </div>

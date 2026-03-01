@@ -1,4 +1,4 @@
-import { useState, useEffect, type SetStateAction } from 'react';
+import React, { useState } from 'react';
 import {
   Settings as SettingsIcon,
   LogOut,
@@ -8,66 +8,13 @@ import {
   Plus,
   Minus,
   LogOut as DoorOpen,
-  Github,
-  Download,
-  CheckCircle2,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import type { IpcRendererEvent } from 'electron';
 
 const Settings = () => {
   const navigate = useNavigate();
   const [zoomLevel, setZoomLevel] = useState(0);
-  const [repoStr, setRepoStr] = useState('mannuvilasara/kiosk-project');
-  const [updateStatus, setUpdateStatus] = useState<string>('idle'); // idle, checking, available, downloading, downloaded
-  const [downloadProgress, setDownloadProgress] = useState(0);
-
-  useEffect(() => {
-    if (window.ipcRenderer) {
-      window.ipcRenderer
-        .invoke('get-store-val', 'githubRepo')
-        .then((val: SetStateAction<string>) => {
-          if (val) setRepoStr(val);
-        });
-
-      window.ipcRenderer.on('update-available', () => {
-        setUpdateStatus('available');
-        toast.success('Update available!');
-      });
-
-      window.ipcRenderer.on('update-not-available', () => {
-        setUpdateStatus('idle');
-        toast.success('You are on the latest version.');
-      });
-
-      window.ipcRenderer.on('update-error', (_evt: IpcRendererEvent, msg: string) => {
-        setUpdateStatus('idle');
-        toast.error(`Update error: ${msg}`);
-      });
-
-      window.ipcRenderer.on('download-progress', (_evt: IpcRendererEvent, progress: number) => {
-        setUpdateStatus('downloading');
-        setDownloadProgress(Math.round(progress));
-      });
-
-      window.ipcRenderer.on('update-downloaded', () => {
-        setUpdateStatus('downloaded');
-        toast.success('Update downloaded and ready to install!');
-      });
-    }
-
-    return () => {
-      // Cleanup generic listeners if component unmounts
-      if (window.ipcRenderer) {
-        window.ipcRenderer.removeAllListeners('update-available');
-        window.ipcRenderer.removeAllListeners('update-not-available');
-        window.ipcRenderer.removeAllListeners('update-error');
-        window.ipcRenderer.removeAllListeners('download-progress');
-        window.ipcRenderer.removeAllListeners('update-downloaded');
-      }
-    };
-  }, []);
 
   const handleLogout = () => {
     toast.success('Admin session ended');
@@ -87,36 +34,8 @@ const Settings = () => {
   };
 
   const handleCheckUpdates = () => {
-    if (!window.ipcRenderer) {
-      toast.error('Updates only work in the standalone Electron environment');
-      return;
-    }
-    setUpdateStatus('checking');
     toast.success('Checking for updates...');
-    window.ipcRenderer.send('check-for-updates');
-  };
-
-  const handleDownloadUpdate = () => {
-    if (window.ipcRenderer) {
-      window.ipcRenderer.send('start-download');
-    }
-  };
-
-  const handleInstallUpdate = () => {
-    if (window.ipcRenderer) {
-      window.ipcRenderer.send('install-update');
-    }
-  };
-
-  const handleSetRepo = async () => {
-    if (window.ipcRenderer) {
-      if (!repoStr.includes('/')) {
-        toast.error('Repository must be strictly in owner/repo format');
-        return;
-      }
-      await window.ipcRenderer.invoke('set-store-val', 'githubRepo', repoStr);
-      toast.success('Repository linked globally updated');
-    }
+    // Add logic here to check for updates via electron-updater if implemented
   };
 
   const adjustZoom = (delta: number) => {
@@ -156,88 +75,21 @@ const Settings = () => {
           <div className="bg-white border border-slate-200 p-6 rounded-3xl flex items-center justify-between hover:shadow-md transition-shadow group">
             <div className="flex items-center gap-6">
               <div className="p-4 bg-emerald-50 rounded-2xl text-emerald-600 group-hover:scale-110 transition-transform">
-                <RefreshCw
-                  size={28}
-                  className={updateStatus === 'checking' ? 'animate-spin' : ''}
-                />
+                <RefreshCw size={28} />
               </div>
-              <div className="max-w-md w-full">
-                <h3 className="text-xl font-bold text-slate-800 mb-1">Software Update</h3>
-                <p className="text-slate-500 font-medium mb-3">
-                  Check, download, and install latest software release from cloud.
+              <div>
+                <h3 className="text-xl font-bold text-slate-800 mb-1">Check for Updates</h3>
+                <p className="text-slate-500 font-medium">
+                  Verify and install the latest software updates for the Kiosk application.
                 </p>
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 relative">
-                    <Github
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                      size={18}
-                    />
-                    <input
-                      type="text"
-                      className="w-full pl-10 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm font-medium text-slate-700"
-                      placeholder="owner/repo"
-                      value={repoStr}
-                      onChange={(e) => setRepoStr(e.target.value)}
-                    />
-                  </div>
-                  <button
-                    onClick={handleSetRepo}
-                    className="px-4 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 font-bold rounded-xl text-sm transition-colors"
-                  >
-                    Save Root
-                  </button>
-                </div>
               </div>
             </div>
-
-            <div className="flex flex-col items-end gap-2">
-              {updateStatus === 'idle' && (
-                <button
-                  onClick={handleCheckUpdates}
-                  className="py-3 px-8 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 active:scale-95 transition-all whitespace-nowrap"
-                >
-                  Verify Now
-                </button>
-              )}
-
-              {updateStatus === 'checking' && (
-                <span className="py-3 px-8 bg-slate-50 text-slate-400 font-bold rounded-xl cursor-not-allowed whitespace-nowrap">
-                  Checking...
-                </span>
-              )}
-
-              {updateStatus === 'available' && (
-                <button
-                  onClick={handleDownloadUpdate}
-                  className="py-3 px-8 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 active:scale-95 transition-all whitespace-nowrap shadow-lg shadow-emerald-500/30 flex items-center gap-2"
-                >
-                  <Download size={18} /> Load Content
-                </button>
-              )}
-
-              {updateStatus === 'downloading' && (
-                <div className="flex flex-col items-center">
-                  <span className="text-sm font-bold text-emerald-600 mb-1">
-                    {downloadProgress}%
-                  </span>
-                  <div className="w-32 h-2 bg-emerald-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-emerald-500 transition-all duration-300"
-                      style={{ width: `${downloadProgress}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {updateStatus === 'downloaded' && (
-                <button
-                  onClick={handleInstallUpdate}
-                  className="py-3 px-8 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 active:scale-95 transition-all whitespace-nowrap shadow-lg shadow-blue-500/30 flex items-center gap-2"
-                >
-                  <CheckCircle2 size={18} /> Apply Install
-                </button>
-              )}
-            </div>
+            <button
+              onClick={handleCheckUpdates}
+              className="py-3 px-8 bg-slate-100 text-slate-700 font-bold rounded-xl hover:bg-slate-200 active:scale-95 transition-all whitespace-nowrap"
+            >
+              Check Now
+            </button>
           </div>
 
           {/* Display config */}

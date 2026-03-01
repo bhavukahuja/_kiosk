@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   Users,
@@ -33,6 +34,7 @@ export const Faculty = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const fetchFaculty = async () => {
     setLoading(true);
@@ -42,7 +44,7 @@ export const Faculty = () => {
       setFaculty(res.data.faculties || []);
     } catch (err) {
       console.error('Error fetching faculty:', err);
-      setError('Unable to load faculty directory.');
+      setError(t('faculty.unableToLoad'));
     } finally {
       setLoading(false);
     }
@@ -68,10 +70,10 @@ export const Faculty = () => {
             <div className="flex items-center gap-3 mb-1">
               <Users className="text-[#002b5c]" size={20} />
               <span className="text-[#002b5c] font-black text-[9px] tracking-[0.4em] uppercase opacity-60">
-                Department Directory
+                {t('faculty.departmentDirectory')}
               </span>
             </div>
-            <h2 className="text-4xl font-black text-[#002b5c] tracking-tight">Our Faculty</h2>
+            <h2 className="text-4xl font-black text-[#002b5c] tracking-tight">{t('faculty.ourFaculty')}</h2>
           </div>
 
           <div className="flex items-center gap-3 bg-slate-100/50 p-1.5 rounded-xl border border-slate-200 w-72 transition-all focus-within:ring-2 focus-within:ring-[#002b5c]/10">
@@ -80,7 +82,7 @@ export const Faculty = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search directory..."
+              placeholder={t('faculty.searchPlaceholder')}
               className="bg-transparent py-2 pr-4 text-base focus:outline-none font-bold text-[#002b5c] w-full placeholder:text-slate-400"
             />
           </div>
@@ -108,7 +110,7 @@ export const Faculty = () => {
           <div className="h-full flex flex-col items-center justify-center">
             <Loader2 size={48} className="text-[#002b5c] animate-spin mb-4" />
             <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
-              Syncing Directory...
+              {t('faculty.syncingDirectory')}
             </p>
           </div>
         ) : error ? (
@@ -119,7 +121,7 @@ export const Faculty = () => {
               onClick={fetchFaculty}
               className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-bold active:scale-95 transition-all text-sm"
             >
-              Retry Sync
+              {t('common.retrySync')}
             </button>
           </div>
         ) : filteredFaculty.length > 0 ? (
@@ -155,7 +157,7 @@ export const Faculty = () => {
 
                 <div className="w-full pt-4 border-t border-slate-50 flex items-center justify-center gap-2 text-[#002b5c] font-black text-[10px] group-hover:gap-3 transition-all uppercase tracking-[0.2em] opacity-80 group-hover:opacity-100">
                   <Contact2 size={14} />
-                  View Contact Details <ChevronRight size={14} strokeWidth={3} />
+                  {t('faculty.viewContactDetails')} <ChevronRight size={14} strokeWidth={3} />
                 </div>
               </div>
             ))}
@@ -163,7 +165,7 @@ export const Faculty = () => {
         ) : (
           <div className="h-full flex flex-col items-center justify-center opacity-40 text-slate-400 grayscale">
             <Building2 size={100} strokeWidth={1} />
-            <h3 className="text-xl font-black mt-4 uppercase tracking-widest">No entries found</h3>
+            <h3 className="text-xl font-black mt-4 uppercase tracking-widest">{t('faculty.noEntries')}</h3>
           </div>
         )}
       </div>

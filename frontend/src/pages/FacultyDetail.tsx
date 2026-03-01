@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {
   AlertCircle,
@@ -28,6 +29,7 @@ interface FacultyMember {
 const FacultyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [data, setData] = useState<FacultyMember | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +44,7 @@ const FacultyDetail = () => {
         setData(res.data.faculty || res.data);
       } catch (err) {
         console.error('Error fetching faculty detail:', err);
-        setError('Teacher details could not be loaded.');
+        setError(t('facultyDetail.errorLoading'));
       } finally {
         setLoading(false);
       }
@@ -57,7 +59,7 @@ const FacultyDetail = () => {
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-slate-100 border-t-[#002b5c] rounded-full animate-spin" />
           <span className="text-slate-300 font-bold tracking-[0.3em] text-[10px] uppercase">
-            Retrieving Profile
+            {t('facultyDetail.retrievingProfile')}
           </span>
         </div>
       </div>
@@ -67,12 +69,12 @@ const FacultyDetail = () => {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-[40px] p-20 text-center border border-slate-100">
         <AlertCircle size={40} className="text-red-300 mb-6" />
-        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || 'Faculty Not Found'}</h3>
+        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || t('facultyDetail.facultyNotFound')}</h3>
         <button
           onClick={() => navigate(-1)}
           className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-bold active:scale-95 transition-all text-sm"
         >
-          Return to Directory
+          {t('common.returnToDirectory')}
         </button>
       </div>
     );
@@ -86,16 +88,16 @@ const FacultyDetail = () => {
         >
           <ChevronLeft size={18} className="text-[#002b5c]" />
           <span className="text-[11px] font-black text-[#002b5c] uppercase tracking-widest">
-            Back to Directory
+            {t('common.backToDirectory')}
           </span>
         </button>
 
         <div className="flex items-center gap-6">
           <div className="flex flex-col items-end">
             <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em] mb-1">
-              Academic Unit
+              {t('facultyDetail.academicUnit')}
             </span>
-            <span className="text-sm font-bold text-[#002b5c]">{data.department} Engineering</span>
+            <span className="text-sm font-bold text-[#002b5c]">{data.department} {t('facultyDetail.engineering')}</span>
           </div>
           <div className="w-[1px] h-8 bg-slate-200" />
           <BadgeCheck className="text-blue-500" size={24} />
@@ -119,7 +121,7 @@ const FacultyDetail = () => {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-slate-100 rounded-full mb-4">
               <Building size={14} className="text-slate-400" />
               <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Verified Faculty Member
+                {t('facultyDetail.verifiedFaculty')}
               </span>
             </div>
             <h1 className="text-6xl font-black text-[#002b5c] tracking-tighter leading-none mb-4">
@@ -134,7 +136,7 @@ const FacultyDetail = () => {
             <section>
               <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em] mb-8 flex items-center gap-4">
                 <span className="w-8 h-[1px] bg-slate-200" />
-                Professional Background
+                {t('facultyDetail.professionalBackground')}
               </h4>
 
               <div className="space-y-10">
@@ -144,7 +146,7 @@ const FacultyDetail = () => {
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                      Highest Qualification
+                      {t('facultyDetail.highestQualification')}
                     </p>
                     <p className="text-xl font-bold text-slate-700 leading-snug">
                       {data.qualification}
@@ -158,10 +160,10 @@ const FacultyDetail = () => {
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                      Career Tenure
+                      {t('facultyDetail.careerTenure')}
                     </p>
                     <p className="text-xl font-bold text-slate-700">
-                      {data.totalExperience} Years of Academic Experience
+                      {t('facultyDetail.yearsExperience', { count: data.totalExperience })}
                     </p>
                   </div>
                 </div>
@@ -173,7 +175,7 @@ const FacultyDetail = () => {
             <section>
               <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em] mb-8 flex items-center gap-4">
                 <span className="w-8 h-[1px] bg-slate-200" />
-                Connectivity
+                {t('facultyDetail.connectivity')}
               </h4>
 
               <div className="space-y-6">
@@ -183,7 +185,7 @@ const FacultyDetail = () => {
                   </div>
                   <div>
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                      Official Email
+                      {t('facultyDetail.officialEmail')}
                     </p>
                     <p className="text-lg font-bold text-[#002b5c]">{data.email}</p>
                   </div>
@@ -195,7 +197,7 @@ const FacultyDetail = () => {
                   </div>
                   <div>
                     <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                      Extension / Phone
+                      {t('facultyDetail.extensionPhone')}
                     </p>
                     <p className="text-lg font-bold text-[#002b5c]">{data.phoneNumber}</p>
                   </div>

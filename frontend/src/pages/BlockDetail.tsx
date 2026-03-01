@@ -10,6 +10,7 @@ import {
   Layers,
   CheckCircle2,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface DepartmentInfo {
   about: string;
@@ -38,6 +39,7 @@ const DEFAULT_IMAGE =
 const BlockDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [data, setData] = useState<BuildingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +54,7 @@ const BlockDetail = () => {
         setData(res.data.building || res.data);
       } catch (err) {
         console.error('Error fetching building detail:', err);
-        setError('Building details could not be loaded.');
+        setError(t('blockDetail.errorLoading'));
       } finally {
         setLoading(false);
       }
@@ -66,7 +68,7 @@ const BlockDetail = () => {
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-2 border-slate-100 border-t-[#002b5c] rounded-full animate-spin" />
           <span className="text-slate-300 font-bold tracking-[0.3em] text-[10px] uppercase">
-            Loading Block
+            {t('blockDetail.loadingBlock')}
           </span>
         </div>
       </div>
@@ -76,12 +78,12 @@ const BlockDetail = () => {
     return (
       <div className="h-full flex flex-col items-center justify-center bg-white rounded-[40px] p-20 text-center border border-slate-100">
         <AlertCircle size={40} className="text-red-300 mb-6" />
-        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || 'Block Not Found'}</h3>
+        <h3 className="text-xl font-bold text-[#002b5c] mb-8">{error || t('blockDetail.blockNotFound')}</h3>
         <button
           onClick={() => navigate(-1)}
           className="px-8 py-3 bg-[#002b5c] text-white rounded-xl font-bold active:scale-95 transition-all text-sm"
         >
-          Return to Directory
+          {t('common.returnToDirectory')}
         </button>
       </div>
     );
@@ -102,7 +104,7 @@ const BlockDetail = () => {
         >
           <ChevronLeft size={18} className="text-[#002b5c]" />
           <span className="text-[11px] font-black text-[#002b5c] uppercase tracking-widest">
-            Back to Directory
+            {t('common.backToDirectory')}
           </span>
         </button>
 
@@ -111,7 +113,7 @@ const BlockDetail = () => {
             <>
               <div className="flex flex-col items-end">
                 <span className="text-[9px] font-black text-slate-400 uppercase tracking-[0.4em] mb-1">
-                  Block Code
+                  {t('common.blockCode')}
                 </span>
                 <span className="text-sm font-bold text-[#002b5c]">{data.code}</span>
               </div>
@@ -146,7 +148,7 @@ const BlockDetail = () => {
               <Layers size={14} className="text-slate-400" />
               <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
                 {data.type.charAt(0).toUpperCase() + data.type.slice(1)}
-                {data.totalFloors ? ` · ${data.totalFloors} Floors` : ''}
+                {data.totalFloors ? ` · ${data.totalFloors} ${t('common.floors')}` : ''}
               </span>
             </div>
             <h1 className="text-5xl font-black text-[#002b5c] tracking-tighter leading-none mb-4">
@@ -169,7 +171,7 @@ const BlockDetail = () => {
               <section>
                 <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em] mb-8 flex items-center gap-4">
                   <span className="w-8 h-[1px] bg-slate-200" />
-                  About the Department
+                  {t('blockDetail.aboutDepartment')}
                 </h4>
                 <div className="flex gap-6 items-start">
                   <div className="w-12 h-12 rounded-2xl bg-[#002b5c]/5 flex items-center justify-center text-[#002b5c] shrink-0 mt-1">
@@ -182,9 +184,9 @@ const BlockDetail = () => {
               <section>
                 <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em] mb-6 flex items-center gap-4">
                   <span className="w-8 h-[1px] bg-slate-200" />
-                  About the Department
+                  {t('blockDetail.aboutDepartment')}
                 </h4>
-                <p className="text-sm text-slate-300 italic">No description available.</p>
+                <p className="text-sm text-slate-300 italic">{t('common.noDescription')}</p>
               </section>
             )}
           </div>
@@ -194,7 +196,7 @@ const BlockDetail = () => {
             <section>
               <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.5em] mb-8 flex items-center gap-4">
                 <span className="w-8 h-[1px] bg-slate-200" />
-                Courses Offered
+                {t('common.coursesOffered')}
               </h4>
 
               {courses.length > 0 ? (
@@ -213,7 +215,7 @@ const BlockDetail = () => {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-300 italic">No courses listed.</p>
+                <p className="text-sm text-slate-300 italic">{t('common.noCourses')}</p>
               )}
             </section>
           </div>
