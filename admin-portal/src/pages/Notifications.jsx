@@ -32,7 +32,7 @@ const Notifications = () => {
     e.stopPropagation();
     if (!window.confirm('Delete this announcement?')) return;
     try {
-      await axiosInstance.delete(`/api/announcement/delete/${id}`);
+      await axiosInstance.get(`/api/announcement/delete/${id}`);
       toast.success('Announcement deleted!');
       fetchNotifications();
     } catch (err) {
