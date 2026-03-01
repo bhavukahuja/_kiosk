@@ -17,6 +17,11 @@ process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
   : path.join(process.env.DIST, '../public');
 
+// Suppress common Wayland and dbus console errors on Linux
+if (process.platform === 'linux') {
+  app.commandLine.appendSwitch('log-level', '3');
+}
+
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - SystemJS only
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
