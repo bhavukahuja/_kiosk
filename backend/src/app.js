@@ -7,6 +7,7 @@ import facultyRoutes from './routes/Faculty.routes.js';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/Auth.routes.js';
 import helpTicketRoutes from './routes/HelpTicket.routes.js';
+import scheduleRoutes from './routes/Schedule.routes.js'
 import { auth } from './middlewares/auth.middleware.js';
 import cors from 'cors';
 
@@ -38,5 +39,6 @@ app.use('/api/announcement', announcementRoutes);
 app.use('/api/faculty', facultyRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/help-ticket', helpTicketRoutes);
+app.use('/api/schedule',scheduleRoutes)
 
 export default app;
