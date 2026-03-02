@@ -241,13 +241,7 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#16a34a',
       fillOpacity: 1,
-    })
-      .addTo(map)
-      .bindTooltip(t('navigation.start'), {
-        permanent: true,
-        direction: 'top',
-        className: 'leaflet-tooltip-start',
-      });
+    }).addTo(map);
 
     // Red end marker
     const last = latlngs[latlngs.length - 1];
@@ -257,13 +251,7 @@ const Navigation = () => {
       weight: 3,
       fillColor: '#dc2626',
       fillOpacity: 1,
-    })
-      .addTo(map)
-      .bindTooltip(t('navigation.destination'), {
-        permanent: true,
-        direction: 'top',
-        className: 'leaflet-tooltip-end',
-      });
+    }).addTo(map);
 
     map.fitBounds(polyline.getBounds(), { padding: [60, 60] });
   }
@@ -476,37 +464,31 @@ const Navigation = () => {
           display: inline-flex;
           flex-direction: column;
           align-items: center;
-          gap: 1px;
+          gap: 0;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          padding: 4px 9px;
+          border-radius: 7px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255,255,255,0.9);
+          border: 1px solid rgba(255,255,255,0.7);
           pointer-events: none;
         }
         .bldg-name {
           display: block;
-          background: rgba(255, 255, 255, 0.93);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
           color: #0f172a;
           font-size: 10px;
           font-weight: 800;
           letter-spacing: 0.02em;
-          padding: 3px 8px;
-          border-radius: 6px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255,255,255,0.8);
           white-space: nowrap;
           line-height: 1.3;
-          border: 1px solid rgba(255,255,255,0.6);
         }
         .bldg-sub {
           display: block;
-          background: rgba(0, 43, 92, 0.82);
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
-          color: #fff;
+          color: #64748b;
           font-size: 8px;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          padding: 2px 6px;
-          border-radius: 4px;
-          box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+          font-weight: 600;
+          letter-spacing: 0.03em;
           white-space: nowrap;
           line-height: 1.3;
         }
